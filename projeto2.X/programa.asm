@@ -1,12 +1,21 @@
-list p=16F873A
-status	equ   03
-porta equ 06
-portb equ 07
-trisa equ 06
-trisb equ 07
-org 00
-start bsf status, 5
-movlw B'00000001'
-movlw trisb
-movlw trisa
-end
+; Alunos:
+; Gabriel Bueno
+; Paulo Paim
+; Pedro Ferracini
+
+    list    p=16f873A	    ; Especificando qual o tipo de microcontrolador
+    #include "p16f873a.inc"	; Include do arquivo de configuracao (ta em header files) precisa disso pro mplab
+    
+    __CONFIG _CP_OFF & _WDT_OFF & _BODEN_OFF & _PWRTE_ON & _RC_OSC & _WRT_OFF & _LVP_ON & _CPD_OFF	; Algumas configuracoes que peguei de exemplos
+    
+    ; Variaveis
+    
+    
+    ; ************************
+    org 0x000
+    goto main
+    
+    main
+    
+    
+    end

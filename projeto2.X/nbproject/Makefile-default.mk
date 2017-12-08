@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=MPLAB-exemplo-geral.asm MPLAB-exemplo-basico.asm programa.asm
+SOURCEFILES_QUOTED_IF_SPACED=programa.asm
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/MPLAB-exemplo-geral.o ${OBJECTDIR}/MPLAB-exemplo-basico.o ${OBJECTDIR}/programa.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/MPLAB-exemplo-geral.o.d ${OBJECTDIR}/MPLAB-exemplo-basico.o.d ${OBJECTDIR}/programa.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/programa.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/programa.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/MPLAB-exemplo-geral.o ${OBJECTDIR}/MPLAB-exemplo-basico.o ${OBJECTDIR}/programa.o
+OBJECTFILES=${OBJECTDIR}/programa.o
 
 # Source Files
-SOURCEFILES=MPLAB-exemplo-geral.asm MPLAB-exemplo-basico.asm programa.asm
+SOURCEFILES=programa.asm
 
 
 CFLAGS=
@@ -90,51 +90,19 @@ endif
 	${MAKE}  -f nbproject/Makefile-default.mk dist/${CND_CONF}/${IMAGE_TYPE}/projeto2.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 
 MP_PROCESSOR_OPTION=16f873a
-MP_LINKER_DEBUG_OPTION= 
+MP_LINKER_DEBUG_OPTION=-r=ROM@0xF00:0xFFF -r=RAM@SHARE:0x1F4:0x1FF
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: assemble
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-${OBJECTDIR}/MPLAB-exemplo-geral.o: MPLAB-exemplo-geral.asm  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/MPLAB-exemplo-geral.o.d 
-	@${RM} ${OBJECTDIR}/MPLAB-exemplo-geral.o 
-	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/MPLAB-exemplo-geral.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -d__DEBUG -d__MPLAB_DEBUGGER_SIMULATOR=1 -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/MPLAB-exemplo-geral.lst\\\" -e\\\"${OBJECTDIR}/MPLAB-exemplo-geral.err\\\" $(ASM_OPTIONS)    -o\\\"${OBJECTDIR}/MPLAB-exemplo-geral.o\\\" \\\"MPLAB-exemplo-geral.asm\\\" 
-	@${DEP_GEN} -d "${OBJECTDIR}/MPLAB-exemplo-geral.o"
-	@${FIXDEPS} "${OBJECTDIR}/MPLAB-exemplo-geral.o.d" $(SILENT) -rsi ${MP_AS_DIR} -c18 
-	
-${OBJECTDIR}/MPLAB-exemplo-basico.o: MPLAB-exemplo-basico.asm  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/MPLAB-exemplo-basico.o.d 
-	@${RM} ${OBJECTDIR}/MPLAB-exemplo-basico.o 
-	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/MPLAB-exemplo-basico.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -d__DEBUG -d__MPLAB_DEBUGGER_SIMULATOR=1 -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/MPLAB-exemplo-basico.lst\\\" -e\\\"${OBJECTDIR}/MPLAB-exemplo-basico.err\\\" $(ASM_OPTIONS)    -o\\\"${OBJECTDIR}/MPLAB-exemplo-basico.o\\\" \\\"MPLAB-exemplo-basico.asm\\\" 
-	@${DEP_GEN} -d "${OBJECTDIR}/MPLAB-exemplo-basico.o"
-	@${FIXDEPS} "${OBJECTDIR}/MPLAB-exemplo-basico.o.d" $(SILENT) -rsi ${MP_AS_DIR} -c18 
-	
 ${OBJECTDIR}/programa.o: programa.asm  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/programa.o.d 
 	@${RM} ${OBJECTDIR}/programa.o 
-	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/programa.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -d__DEBUG -d__MPLAB_DEBUGGER_SIMULATOR=1 -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/programa.lst\\\" -e\\\"${OBJECTDIR}/programa.err\\\" $(ASM_OPTIONS)    -o\\\"${OBJECTDIR}/programa.o\\\" \\\"programa.asm\\\" 
+	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/programa.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -d__DEBUG -d__MPLAB_DEBUGGER_PK3=1 -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/programa.lst\\\" -e\\\"${OBJECTDIR}/programa.err\\\" $(ASM_OPTIONS)    -o\\\"${OBJECTDIR}/programa.o\\\" \\\"programa.asm\\\" 
 	@${DEP_GEN} -d "${OBJECTDIR}/programa.o"
 	@${FIXDEPS} "${OBJECTDIR}/programa.o.d" $(SILENT) -rsi ${MP_AS_DIR} -c18 
 	
 else
-${OBJECTDIR}/MPLAB-exemplo-geral.o: MPLAB-exemplo-geral.asm  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/MPLAB-exemplo-geral.o.d 
-	@${RM} ${OBJECTDIR}/MPLAB-exemplo-geral.o 
-	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/MPLAB-exemplo-geral.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/MPLAB-exemplo-geral.lst\\\" -e\\\"${OBJECTDIR}/MPLAB-exemplo-geral.err\\\" $(ASM_OPTIONS)    -o\\\"${OBJECTDIR}/MPLAB-exemplo-geral.o\\\" \\\"MPLAB-exemplo-geral.asm\\\" 
-	@${DEP_GEN} -d "${OBJECTDIR}/MPLAB-exemplo-geral.o"
-	@${FIXDEPS} "${OBJECTDIR}/MPLAB-exemplo-geral.o.d" $(SILENT) -rsi ${MP_AS_DIR} -c18 
-	
-${OBJECTDIR}/MPLAB-exemplo-basico.o: MPLAB-exemplo-basico.asm  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/MPLAB-exemplo-basico.o.d 
-	@${RM} ${OBJECTDIR}/MPLAB-exemplo-basico.o 
-	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/MPLAB-exemplo-basico.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/MPLAB-exemplo-basico.lst\\\" -e\\\"${OBJECTDIR}/MPLAB-exemplo-basico.err\\\" $(ASM_OPTIONS)    -o\\\"${OBJECTDIR}/MPLAB-exemplo-basico.o\\\" \\\"MPLAB-exemplo-basico.asm\\\" 
-	@${DEP_GEN} -d "${OBJECTDIR}/MPLAB-exemplo-basico.o"
-	@${FIXDEPS} "${OBJECTDIR}/MPLAB-exemplo-basico.o.d" $(SILENT) -rsi ${MP_AS_DIR} -c18 
-	
 ${OBJECTDIR}/programa.o: programa.asm  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/programa.o.d 
@@ -150,7 +118,7 @@ endif
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 dist/${CND_CONF}/${IMAGE_TYPE}/projeto2.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk    
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_LD} $(MP_EXTRA_LD_PRE)   -p$(MP_PROCESSOR_OPTION)  -w -x -u_DEBUG -z__ICD2RAM=1 -m"${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map"   -z__MPLAB_BUILD=1  -z__MPLAB_DEBUG=1 -z__MPLAB_DEBUGGER_SIMULATOR=1 $(MP_LINKER_DEBUG_OPTION) -odist/${CND_CONF}/${IMAGE_TYPE}/projeto2.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}     
+	${MP_LD} $(MP_EXTRA_LD_PRE)   -p$(MP_PROCESSOR_OPTION)  -w -x -u_DEBUG -z__ICD2RAM=1 -m"${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map"   -z__MPLAB_BUILD=1  -z__MPLAB_DEBUG=1 -z__MPLAB_DEBUGGER_PK3=1 $(MP_LINKER_DEBUG_OPTION) -odist/${CND_CONF}/${IMAGE_TYPE}/projeto2.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}     
 else
 dist/${CND_CONF}/${IMAGE_TYPE}/projeto2.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
