@@ -98,7 +98,11 @@ ${OBJECTDIR}/programa.o: programa.asm  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/programa.o.d 
 	@${RM} ${OBJECTDIR}/programa.o 
-	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/programa.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -d__DEBUG -d__MPLAB_DEBUGGER_SIMULATOR=1 -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/programa.lst\\\" -e\\\"${OBJECTDIR}/programa.err\\\" $(ASM_OPTIONS)    -o\\\"${OBJECTDIR}/programa.o\\\" \\\"programa.asm\\\" 
+	@${FIXDEPS} dummy.d -e "/home/pedro/Desktop/micro-proj2/projeto2.X/programa.ERR" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -d__DEBUG -d__MPLAB_DEBUGGER_SIMULATOR=1 -q -p$(MP_PROCESSOR_OPTION) -u  $(ASM_OPTIONS)    \\\"/home/pedro/Desktop/micro-proj2/projeto2.X/programa.asm\\\" 
+	@${MV}  /home/pedro/Desktop/micro-proj2/projeto2.X/programa.O ${OBJECTDIR}/programa.o
+	@${MV}  /home/pedro/Desktop/micro-proj2/projeto2.X/programa.ERR ${OBJECTDIR}/programa.o.err
+	@${MV}  /home/pedro/Desktop/micro-proj2/projeto2.X/programa.LST ${OBJECTDIR}/programa.o.lst
+	@${RM}  /home/pedro/Desktop/micro-proj2/projeto2.X/programa.HEX 
 	@${DEP_GEN} -d "${OBJECTDIR}/programa.o"
 	@${FIXDEPS} "${OBJECTDIR}/programa.o.d" $(SILENT) -rsi ${MP_AS_DIR} -c18 
 	
@@ -107,7 +111,11 @@ ${OBJECTDIR}/programa.o: programa.asm  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/programa.o.d 
 	@${RM} ${OBJECTDIR}/programa.o 
-	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/programa.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/programa.lst\\\" -e\\\"${OBJECTDIR}/programa.err\\\" $(ASM_OPTIONS)    -o\\\"${OBJECTDIR}/programa.o\\\" \\\"programa.asm\\\" 
+	@${FIXDEPS} dummy.d -e "/home/pedro/Desktop/micro-proj2/projeto2.X/programa.ERR" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -q -p$(MP_PROCESSOR_OPTION) -u  $(ASM_OPTIONS)    \\\"/home/pedro/Desktop/micro-proj2/projeto2.X/programa.asm\\\" 
+	@${MV}  /home/pedro/Desktop/micro-proj2/projeto2.X/programa.O ${OBJECTDIR}/programa.o
+	@${MV}  /home/pedro/Desktop/micro-proj2/projeto2.X/programa.ERR ${OBJECTDIR}/programa.o.err
+	@${MV}  /home/pedro/Desktop/micro-proj2/projeto2.X/programa.LST ${OBJECTDIR}/programa.o.lst
+	@${RM}  /home/pedro/Desktop/micro-proj2/projeto2.X/programa.HEX 
 	@${DEP_GEN} -d "${OBJECTDIR}/programa.o"
 	@${FIXDEPS} "${OBJECTDIR}/programa.o.d" $(SILENT) -rsi ${MP_AS_DIR} -c18 
 	

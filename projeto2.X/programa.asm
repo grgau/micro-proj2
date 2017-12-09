@@ -15,19 +15,19 @@
     __CONFIG _CP_OFF & _WDT_OFF & _BODEN_OFF & _PWRTE_ON & _RC_OSC & _WRT_OFF & _LVP_ON & _CPD_OFF	; Algumas configuracoes que peguei de exemplos
     
 ; Definicoes
-status  equ	03
-porta   equ	05	; Precisa verificar se aqui é 05 e portb é 06 mesmo
-portb   equ	06
-trisa   equ	05
-trisb   equ	06
+status  equ	H'03'
+porta   equ	H'05'	; Precisa verificar se aqui é 05 e portb é 06 mesmo
+portb   equ	H'06'
+trisa   equ	H'05'
+trisb   equ	H'06'
 
 ; Variaveis
-divisor		equ 05	; Valor de 5 bits lido na porta
-parte1dividendo	equ 08	; Primeiros 8 bits do valor lido na portb
-parte2dividendo	equ 08	; Segunda parte de 8 bits lida na portb
-resultado	equ 08	; Resultado da divisao B/(A^2)
-contadordelay1	equ 11	; Contador de delay auxiliar
-contadordelay2	equ 12	; Contador de delay auxiliar
+divisor		equ H'20'	; Valor de 5 bits lido na porta
+parte1dividendo	equ H'25'	; Primeiros 8 bits do valor lido na portb
+parte2dividendo	equ H'33'	; Segunda parte de 8 bits lida na portb
+resultado	equ H'41'	; Resultado da divisao B/(A^2)
+contadordelay1	equ H'52'	; Contador de delay auxiliar
+contadordelay2	equ H'64'	; Contador de delay auxiliar
    
     org 00	    ; Comecando programa em 0x00
     
@@ -40,14 +40,14 @@ start	bsf status,5	    ; Seleciona o banco 1
     
 ; Inicio programa    
 loop
-    movf    porta,0	    ; Move valor da porta para registrador 0 (registrador w)
+    movf    porta,0	    ; Move valor da porta para registrador 0 (registrador w)    
     movwf   divisor	    ; Move valor de w para variavel divisor
     clrw		    ; Limpa o registrador w
     movf    portb,0	    ; Move valor da portb para o registrador 0 (registrador w)
     movwf   parte1dividendo ; Move valor de w para variavel parte1dividendo
     clrf    porta	    ; Limpa o valor de porta
     clrf    portb	    ; Limpa valor de portb
-    			    ; Condicional se vai ler mais 8 bits na portb
+    			    ; Le mais 8 bits na portb (Talvez fosse interessante por algum condicional aqui)
     movf    portb,0	    ; Move valor da portb para registrador 0 (registrador w)
     movwf   parte2dividendo ; Move valor de w para variavel parte2dividendo
     clrf    portb	    ; Limpa valor de portb
@@ -58,7 +58,8 @@ loop
     goto loop		    ; Volta para inicio do programa
     
 dividir
-    clrw
+			    ; Começo dividir (divisor = A, parte1dividendo primeiros 8 bits a direita, parte2dividendo restante dos 8 bits a esquerda)
+			    ; Ex: divisor = 10, parte1dividendo = 30, parte2dividendo = 40 => Fazer: resultado = 4030/10 e depois resultado = resultado/10
     return
 
 delay				; Subrotina de delay, acredito que esteja fazendo 2 segundos de delay
