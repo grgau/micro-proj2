@@ -51,9 +51,10 @@ loop
     movf    portb,0	    ; Move valor da portb para registrador 0 (registrador w)
     movwf   parte2dividendo ; Move valor de w para variavel parte2dividendo
     clrf    portb	    ; Limpa valor de portb
+
     
     call dividir	    ; Chama subrotina de divisao
-    ;call delay		    ; Chama subrotina de realizar delay de 2 segundos
+    call delay		    ; Chama subrotina de realizar delay de 2 segundos
     
     goto loop		    ; Volta para inicio do programa
     
@@ -62,6 +63,19 @@ dividir
 			    ; Ex: divisor = 10, parte1dividendo = 30, parte2dividendo = 40 => Fazer: resultado = 3040/10 e depois resultado = resultado/10
     return
 
+escreverResultado
+    bsf status,5		;modifica o banco para 1
+    movlw   B'00000000'		;carrega registrador w com 0
+    movwf   trisb		;modifica o trisb para saida
+    bcf	status,5		;modifica o banco para 0
+    movf    resultado,0		;carrega o valor de resultado para o registrador w
+    movwf   portb		;move o resultado para portb
+    bsf status,5		;modifica o banco para 1
+    movlw   B'11111111'		;carrega registrador w com 1
+    movwf   trisb		;modifica o trisb para saida
+    bcf	status,5		;modifica o banco para 0
+    return
+    
 delay				; Subrotina de delay, acredito que esteja fazendo 2 segundos de delay
     movlw   D'4000'		; Move valor 1000 para w
     movwf   contadordelay2	; Move valor de w para contadordelay2
