@@ -33,12 +33,12 @@ contadordelay2	equ 12	; Contador de delay auxiliar
     
 ; Inicializacao
 start	bsf status,5	    ; Seleciona o banco 1
-    movlw   1F		    ; Move 1 para w
+    movlw   B'11111111'	    ; Move 1 para w
     movwf   trisb	    ; Move valor de w para portb (definindo portb como entrada)
     movwf   trisa	    ; Move valor de w para porta (definindo porta como entrada)
     bcf	status,5	    ; Seleciona o banco 0    
-    ; Inicio programa
     
+; Inicio programa    
 loop
     movf    porta,0	    ; Move valor da porta para registrador 0 (registrador w)
     movwf   divisor	    ; Move valor de w para variavel divisor
@@ -50,9 +50,10 @@ loop
     			    ; Condicional se vai ler mais 8 bits na portb
     movf    portb,0	    ; Move valor da portb para registrador 0 (registrador w)
     movwf   parte2dividendo ; Move valor de w para variavel parte2dividendo
-
+    clrf    portb	    ; Limpa valor de portb
+    
     call dividir	    ; Chama subrotina de divisao
-    call delay		    ; Chama subrotina de realizar delay de 2 segundos
+    ;call delay		    ; Chama subrotina de realizar delay de 2 segundos
     
     goto loop		    ; Volta para inicio do programa
     
