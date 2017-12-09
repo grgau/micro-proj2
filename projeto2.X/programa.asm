@@ -58,8 +58,8 @@ loop
     goto loop		    ; Volta para inicio do programa
     
 dividir
-			    ; Começo dividir (divisor = A, parte1dividendo primeiros 8 bits a direita, parte2dividendo restante dos 8 bits a esquerda)
-			    ; Ex: divisor = 10, parte1dividendo = 30, parte2dividendo = 40 => Fazer: resultado = 4030/10 e depois resultado = resultado/10
+			    ; Começo dividir (divisor = A, parte1dividendo primeiros 8 bits a esquerda, parte2dividendo restante dos 8 bits a direita)
+			    ; Ex: divisor = 10, parte1dividendo = 30, parte2dividendo = 40 => Fazer: resultado = 3040/10 e depois resultado = resultado/10
     return
 
 delay				; Subrotina de delay, acredito que esteja fazendo 2 segundos de delay
