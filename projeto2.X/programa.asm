@@ -132,11 +132,13 @@ escreverResultado
     movlw   B'00000000'		;carrega registrador w com 0
     movwf   trisb		;modifica o trisb para saida
     bcf	status,5		;modifica o banco para 0
-    movf    parte1resultado,0	;carrega o valor de resultado para o registrador w
+    movf    parte1resultado,0	;carrega o valor do primeiro resultado para o registrador w
+    movwf   portb		;move o resultado para portb
+    movf    parte2resultado,0	;carrega o valor do segundo resultado para o registrador w
     movwf   portb		;move o resultado para portb
     bsf status,5		;modifica o banco para 1
     movlw   B'11111111'		;carrega registrador w com 1
-    movwf   trisb		;modifica o trisb para saida
+    movwf   trisb		;modifica o trisb para entrada
     bcf	status,5		;modifica o banco para 0
     goto delay
     
