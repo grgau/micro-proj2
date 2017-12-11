@@ -63,6 +63,13 @@ loop
 
     movlw   D'2'		; Move valor 2 para w
     movwf   quantidadeDivisoes	; Move para variavel quantidadeDivisoes valor 2, isto é, será realizado (B/A)/A conforme especificação do projeto
+    
+    movlw   B'11111111'		; Sera realizada verificacao se divisor é zero
+    addwf   divisor		; Adiciona, se houver carry divisor não é zero
+    btfss   status, 0		; Não houve carry, pulará escrever resultado e realizará as divisões seguintes
+    goto escreverResultado
+    subwf   divisor		; Restaura o valor de divisor
+    
     goto dividir		; Chama subrotina de divisao
     
     goto loop			; Volta para inicio do programa
@@ -78,8 +85,23 @@ dividir				; Começo dividir (divisor = A, parte1dividendo primeiros 8 bits a esq
     movlw   B'11111111'		; Move 255 para w
     subwf   aux			; Verifica se aux (com valor de parte2resultado) é 255, se sim, call aumentarresultado
     btfsc   status, 2		; Verifica se resultado foi zero
-    incf    parte1resultado, 1	; Se resultado zero, soma 1 nos primeiros 8 bits de resultado (parte1resultado) (isto, é, "vai 1") 
+    call aumentarResultado	; Chama subrotina de aumentar parte1resultado
     goto dividir
+    
+aumentarResultado
+    decf    parte1dividendo, 1
+    subwf   parte1dividendo
+    btfsc   status, 2		; Verifica se subtracao menor que zero, se sim chama escreverResultado
+    goto    finalizarEssaDivisao; Chama subrotina de finalizar divisoes e chamar funcao de realizar novaDivisao
+    incf    parte1resultado, 1	; Se resultado zero, soma 1 nos primeiros 8 bits de resultado (parte1resultado) (isto, é, "vai 1") 
+    incf    parte1dividendo, 1	; Restaura valor em parte1dividendo
+    addwf   parte1dividendo	; Restaura valor em parte1dividendo
+    return
+
+finalizarEssaDivisao		; Verificacao acrescentada em casos onde ha divisao por 1
+    incf    parte1dividendo, 1	; Restaura valor em parte1dividendo
+    addwf   parte1dividendo	; Restaura valor em parte1dividendo
+    goto novaDivisao		; Essa divisao acabou, chamar novaDivisao
     
 subtrairparte1
     addwf   parte2dividendo	; Restaura valor de parte2dividendo
