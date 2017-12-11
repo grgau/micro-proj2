@@ -37,7 +37,8 @@ aux2		    equ H'4D'	; Variavel auxiliar, usada para verificar valor a ser "empre
 quantidadeDivisoes  equ H'55'	; Variavel de 4 bits que especifica quantas divisoes serao realizadas. Ex: quantidadeDivisoes = 3 => ((B/A)/A)/A
 contadordelay1	    equ H'59'	; Contador de delay auxiliar (8 bits)
 contadordelay2	    equ H'67'	; Contador de delay auxiliar (8 bits)
-		
+contadordelay3	    equ H'6F'	; Contador de delay auxiliar (8 bits)
+	    
     org 00	    ; Comecando programa em 0x00
     
 ; Inicializacao
@@ -45,7 +46,7 @@ start	bsf status,5		; Seleciona o banco 1
     movlw   B'11111111'		; Move 1 para w
     movwf   trisb		; Move valor de w para portb (definindo portb como entrada)
     movwf   trisa		; Move valor de w para porta (definindo porta como entrada)
-    bcf	status,5		; Seleciona o banco 0    
+    bcf	    status,5		; Seleciona o banco 0    
     
 ; Inicio programa    
 loop
@@ -67,7 +68,7 @@ loop
     movlw   B'11111111'		; Sera realizada verificacao se divisor é zero
     addwf   divisor		; Adiciona, se houver carry divisor não é zero
     btfss   status, 0		; Não houve carry, pulará escrever resultado e realizará as divisões seguintes
-    goto escreverResultado
+    goto    escreverResultado
     subwf   divisor		; Restaura o valor de divisor
     
     goto dividir		; Chama subrotina de divisao
@@ -80,28 +81,9 @@ dividir				; Começo dividir (divisor = A, parte1dividendo primeiros 8 bits a esq
     btfss   status, 0		; Verifica se subtracao deu valor menor que zero em parte2dividendo
     call    subtrairparte1	; Se deu menor que zero, chama subrotina de diminuir parte1 em 1 (pegar emprestado), Se nao deu, resultado = resultado + 1 (nas proximas linhas)
     incf    parte2resultado, 1	; Incrementa em um no resultado, divisao foi possivel
-    movf    parte2resultado, 0	; W esta com valor de parte2resultado
-    movwf   aux			; Move valor de w (parte2resultado) para aux
-    movlw   B'11111111'		; Move 255 para w
-    subwf   aux			; Verifica se aux (com valor de parte2resultado) é 255, se sim, call aumentarresultado
-    btfsc   status, 2		; Verifica se resultado foi zero
-    call aumentarResultado	; Chama subrotina de aumentar parte1resultado
-    goto dividir
-    
-aumentarResultado
-    decf    parte1dividendo, 1
-    subwf   parte1dividendo
-    btfsc   status, 2		; Verifica se subtracao menor que zero, se sim chama escreverResultado
-    goto    finalizarEssaDivisao; Chama subrotina de finalizar divisoes e chamar funcao de realizar novaDivisao
-    incf    parte1resultado, 1	; Se resultado zero, soma 1 nos primeiros 8 bits de resultado (parte1resultado) (isto, é, "vai 1") 
-    incf    parte1dividendo, 1	; Restaura valor em parte1dividendo
-    addwf   parte1dividendo	; Restaura valor em parte1dividendo
-    return
-
-finalizarEssaDivisao		; Verificacao acrescentada em casos onde ha divisao por 1
-    incf    parte1dividendo, 1	; Restaura valor em parte1dividendo
-    addwf   parte1dividendo	; Restaura valor em parte1dividendo
-    goto novaDivisao		; Essa divisao acabou, chamar novaDivisao
+    btfsc   status, 2 		; Verifica se parte2resultado estourou valor, se estourou indica que parte2resultado tem valor 255 e se tornou 0
+    incf    parte1resultado, 1	; Se houve estouro, soma 1 nos primeiros 8 bits de resultado (parte1resultado) (isto, é, "vai 1") 
+    goto    dividir    
     
 subtrairparte1
     addwf   parte2dividendo	; Restaura valor de parte2dividendo
@@ -111,18 +93,14 @@ subtrairparte1
     btfsc   status, 2		; Verifica se subtracao menor que zero, se sim chama escreverResultado
     goto    novaDivisao		; Realiza a divisao mais uma vez, conforme solicitado
     addwf   parte1dividendo	; Restaura valor de parte1dividendo
-    
     movlw   B'11111111'		; Passa para w valor 255
     movwf   aux2		; Passa para aux2 valor 255
-
     movf    divisor, 0		; Move valor de divisor para w
     movwf   aux			; Move valor de w (divisor) para aux
     decf    aux, 1		; Decrementa aux em 1
     movf    aux, 0		; Move valor de aux (divisor-1) para w
-    
     subwf   aux2		; Faz (255-(divisor-1)) que é o valor que vai ser "emprestado"
     movf    aux2, 0		; Passa valor de aux2 para w
-    
     addwf   parte2dividendo	; Adiciona valor de w em parte2dividendo
     return
 
@@ -135,7 +113,6 @@ novaDivisao
     movlw   B'00000000'		; Move 0 para w
     movwf   parte1resultado	; Zera valor de parte1resultado
     movwf   parte2resultado	; Zera valor de parte2resultado
-    
     decf    quantidadeDivisoes, 1   ; Decrementa em 1 quantidadeDivisoes
     btfss   status, 2		; Se valor não é zero, realiza mais uma divisão
     goto    dividir
@@ -145,8 +122,6 @@ novaDivisao
     movwf   parte1resultado	; Move o que esta em w para parte1resultado
     movf    parte2dividendo, 0	; Move o que esta em parte2dividendo para w
     movwf   parte2resultado	; Move o que esta em 2 para parte2resultado
-    
-    
     goto    escreverResultado	; Chama subrotina de imprimir resultado
     
 escreverResultado
@@ -164,25 +139,30 @@ escreverResultado
     bcf	status,5		;modifica o banco para 0
     goto delay
     
-    ; OBS: Precisa ajustar o tamanho dos laços (valores movidos para contadordelay2 e contadordelay1 de modo que faça dar 2 segundos de delay)
-    ; Tem que dar um jeito de satisfazer a conta da linha 159 (pode fazer contadordelay1 e contadordelay2 receber outros valores sem ser 255 tambem)
-    ; O problema é que essas variaveis precisam ser de 8 bits, então não da pra passar valor maior que 255
-delay				; Subrotina de delay
-    movlw   D'255'		; Move valor 255 para w
-    movwf   contadordelay2	; Move valor de w para contadordelay2
 
-outer movlw   D'255'		; Move valor 255 para w			(1 ciclo)
-    movwf   contadordelay1	; Move valor de w para contadordelay1	(1 ciclo)
+delay				; Subrotina de delay
+    movlw   D'203'		; Move valor 255 para w
+    movwf   contadordelay3	; Move valor de w para contadordelay2
+
+outer movlw D'255'		; Move valor 255 para w			(1 ciclo)
+    movwf   contadordelay2	; Move valor de w para contadordelay2	(1 ciclo)
     
-inner nop			;					(1 ciclo)
+medium movlw   D'255'		; Move valor 255 para w			(1 ciclo)
+    movwf   contadordelay1	; Move valor de w para contadordelay1	(1 ciclo)
     nop				;					(1 ciclo)
+    nop				;					(1 ciclo)
+    
+inner 
     decfsz  contadordelay1, 1	; Decrementa em 1 o contadordelay1	(1 ciclo)
     goto inner			;					(2 ciclos)
     
     decfsz  contadordelay2, 1	; Decrementa em 1 o contadordelay2	(1 ciclo)
-    goto outer			;					(2 ciclos)
-				; OBS: ((x ciclos laco interno * 255) + x ciclos laco externo) * 255 = 40000000 ciclos
-				; OBS2: PIC 16F873A possui clock de 20MHZ => 1 ciclo = 5*10^-8 segundos, portanto 40000000 ciclos = 2 segundos 
+    goto medium			;					(2 ciclos)
+    
+    decfsz contadordelay3, 1	; Decrementa em 1 o contadordelay3	(1 ciclo)
+    goto outer			;					(3 ciclos)
+				; (( 255 * (3 + 0) + 5 + 2) * 255 + 5 + 0) * 203 = 39.963.565 ciclos
+				; OBS: PIC 16F873A possui clock de 20MHZ => 1 ciclo = 5*10^-8 segundos, portanto 40.000.000 ciclos = 2 segundos 
     goto loop
     
     end
